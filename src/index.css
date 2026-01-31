@@ -1,0 +1,98 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Styles personnalisés élégants */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 80px;
+  }
+
+  body {
+    @apply bg-white text-gray-900;
+    font-family: 'Montserrat', sans-serif;
+  }
+
+  h1, h2, h3, h4 {
+    @apply font-playfair font-bold;
+    letter-spacing: -0.5px;
+  }
+
+  /* Smooth scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-rose-50;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-rose-400 rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-rose-500;
+  }
+}
+
+@layer components {
+  .container-elegant {
+    @apply max-w-6xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .heading-elegant {
+    @apply font-playfair text-4xl md:text-5xl lg:text-6xl;
+  }
+
+  .text-romantic {
+    @apply text-rose-600 font-semibold;
+  }
+
+  .btn-romantic {
+    @apply px-8 py-3 rounded-full font-montserrat font-semibold transition-all duration-500 cursor-pointer;
+    @apply bg-gradient-to-r from-rose-500 to-rose-600 text-white;
+    @apply hover:shadow-romantic hover:-translate-y-1 active:translate-y-0;
+  }
+
+  .btn-romantic-outline {
+    @apply px-8 py-3 rounded-full font-montserrat font-semibold transition-all duration-500 cursor-pointer;
+    @apply border-2 border-rose-500 text-rose-600;
+    @apply hover:bg-rose-50 hover:shadow-romantic hover:-translate-y-1;
+  }
+
+  .card-romantic {
+    @apply bg-white rounded-2xl p-6 md:p-8 shadow-soft border border-rose-100;
+    @apply hover:shadow-romantic transition-all duration-500 hover:-translate-y-1;
+  }
+
+  .divider-elegant {
+    @apply flex items-center space-x-4;
+  }
+
+  .divider-elegant::before,
+  .divider-elegant::after {
+    content: '';
+    @apply flex-1 h-px bg-gradient-to-r from-rose-200 via-rose-400 to-transparent;
+  }
+
+  .divider-elegant::after {
+    @apply bg-gradient-to-l from-rose-200 via-rose-400 to-transparent;
+  }
+
+  .section-elegant {
+    @apply relative py-20 md:py-32;
+  }
+
+  .text-gradient-rose {
+    @apply bg-gradient-to-r from-rose-600 via-rose-500 to-rose-700 bg-clip-text text-transparent;
+  }
+}
+
+/* Animations subtiles */
+@layer utilities {
+  .transition-elegant {
+    @apply transition-all duration-500 ease-out;
+  }
+}
