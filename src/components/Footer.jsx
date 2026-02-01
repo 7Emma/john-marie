@@ -24,7 +24,7 @@ const Footer = () => {
           {/* Informations du mariage */}
           <div className="bg-rose-50 rounded-2xl p-8 border border-rose-100">
             <p className="font-playfair text-3xl font-bold text-gradient-rose mb-3">
-              30 Juin 2025
+              15 mars 2026
             </p>
             <p className="font-playfair text-lg text-gray-800 mb-2">
               Château de Malmaison
@@ -94,7 +94,7 @@ const Footer = () => {
           {/* Copyright */}
           <div>
             <p className="font-montserrat text-sm text-gray-600">
-              © 2025 John & Marie • Créé avec 💕 pour notre mariage
+              © 2026 John & Marie • Créé avec 💕 pour notre mariage
             </p>
           </div>
         </div>

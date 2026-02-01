@@ -75,7 +75,7 @@ const RSVPModal = ({ isOpen, onClose }) => {
               {/* Message d'intro */}
               <div className="mb-6">
                 <p className="font-montserrat text-gray-700 text-sm leading-relaxed">
-                  Merci de confirmer votre présence avant le <span className="font-semibold text-rose-600">12 février 2026</span>
+                  Merci de confirmer votre présence avant le <span className="font-semibold text-rose-600">10 mars 2026</span>
                 </p>
               </div>
 

@@ -60,7 +60,7 @@ const RSVP = () => {
             </div>
           </div>
           <p className="font-montserrat text-lg md:text-xl text-gray-700 max-w-2xl mx-auto font-light">
-            Merci de confirmer votre présence avant le 30 mai 2025
+            Merci de confirmer votre présence avant le 10 mars 2026
           </p>
         </div>
 

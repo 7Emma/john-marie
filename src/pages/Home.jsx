@@ -2,9 +2,9 @@ import { MapPin, Clock, ChevronDown } from "lucide-react";
 import Countdown from "../components/Countdown";
 
 const Hero = ({ onOpenRSVP }) => {
-  // Calculer la date du mariage (15 jours à partir d'aujourd'hui)
-  const weddingDate = new Date();
-  weddingDate.setDate(weddingDate.getDate() + 15);
+  // Date FIXE du mariage : 15 mars 2026
+  // Cette date ne change pas au fil des jours
+  const weddingDate = new Date(2026, 2, 15); // Mars = 2 (0-indexed)
   const dateFormatted = weddingDate.toLocaleDateString("fr-FR", {
     weekday: "long",
     year: "numeric",

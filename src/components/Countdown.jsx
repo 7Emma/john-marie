@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
 
 const Countdown = () => {
-  // Calculer la date du mariage (15 jours à partir d'aujourd'hui à 16h)
-  const today = new Date();
-  const weddingDateObj = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 15, 16, 0, 0);
-  const weddingDate = weddingDateObj.getTime();
+  // Date FIXE du mariage : 15 mars 2026 à 16h00
+  // Cette date ne change pas, ainsi le compteur décroît chaque jour
+  const weddingDate = new Date(2026, 2, 15, 16, 0, 0).getTime(); // Mars = 2 (0-indexed)
 
   const [timeLeft, setTimeLeft] = useState({
     days: 0,
