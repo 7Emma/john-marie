@@ -50,11 +50,11 @@ const Hero = ({ onOpenRSVP }) => {
           </div>
 
           {/* Titre principal - Compact */}
-          <div>
+          <div className="overflow-hidden">
             <p className="font-montserrat text-xs md:text-sm text-rose-600 font-semibold tracking-widest uppercase mb-2">
               Nous convions
             </p>
-            <h1 className="heading-elegant text-gray-900 mb-1 drop-shadow-lg">
+            <h1 className="heading-elegant text-gray-900 mb-1 drop-shadow-lg mx-20">
               <span className="text-gradient-rose font-vibes text-5xl md:text-7xl lg:text-8xl">
                 John & Marie
               </span>
