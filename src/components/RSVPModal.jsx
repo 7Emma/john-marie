@@ -1,7 +1,8 @@
-import { X, Mail, Phone } from "lucide-react";
+import { X, Mail, Phone, AlertCircle } from "lucide-react";
 import { useState } from "react";
+import RSVPService from "../services/rsvpService";
 
-const RSVPModal = ({ isOpen, onClose }) => {
+const RSVPModal = ({ isOpen, onClose, showToast = () => {} }) => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -12,6 +13,24 @@ const RSVPModal = ({ isOpen, onClose }) => {
   });
 
   const [submitted, setSubmitted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  // Réinitialiser quand on ferme le modal
+  const handleCloseModal = () => {
+    setFormData({
+      name: "",
+      email: "",
+      phone: "",
+      guests: "1",
+      dietary: "",
+      message: "",
+    });
+    setSubmitted(false);
+    setIsLoading(false);
+    setError(null);
+    onClose();
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -19,35 +38,64 @@ const RSVPModal = ({ isOpen, onClose }) => {
       ...prev,
       [name]: value,
     }));
+    setError(null);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Formulaire soumis:", formData);
-    setSubmitted(true);
-    setTimeout(() => {
-      setSubmitted(false);
-      setFormData({
-        name: "",
-        email: "",
-        phone: "",
-        guests: "1",
-        dietary: "",
-        message: "",
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      // Soumettre au serveur
+      await RSVPService.submitRSVP({
+        name: formData.name.trim(),
+        email: formData.email.trim(),
+        phone: formData.phone.trim(),
+        guests: parseInt(formData.guests),
+        dietary: formData.dietary.trim(),
+        message: formData.message.trim(),
       });
-      onClose();
-    }, 2000);
+
+      console.log("✅ RSVP soumis avec succès");
+      showToast("Votre RSVP a été confirmé avec succès!", "success");
+      setSubmitted(true);
+
+      // Réinitialiser après 2 secondes
+      setTimeout(() => {
+        setSubmitted(false);
+        setFormData({
+          name: "",
+          email: "",
+          phone: "",
+          guests: "1",
+          dietary: "",
+          message: "",
+        });
+        setError(null);
+        onClose();
+      }, 2000);
+    } catch (err) {
+      console.error("❌ Erreur RSVP:", err);
+      const errorMessage =
+        err.response?.data?.error ||
+        err.message ||
+        "Erreur lors de la soumission. Veuillez réessayer.";
+      setError(errorMessage);
+      showToast(errorMessage, "error");
+      setIsLoading(false);
+    }
   };
 
   return (
     <>
       {/* Overlay */}
-      <div
-        className={`fixed inset-0 z-40 bg-black/50 backdrop-blur-sm transition-opacity duration-500 ${
-          isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
-        }`}
-        onClick={onClose}
-      ></div>
+       <div
+         className={`fixed inset-0 z-40 bg-black/50 backdrop-blur-sm transition-opacity duration-500 ${
+           isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+         }`}
+         onClick={handleCloseModal}
+       ></div>
 
       {/* Drawer */}
       <div
@@ -61,7 +109,7 @@ const RSVPModal = ({ isOpen, onClose }) => {
             RSVP
           </h2>
           <button
-            onClick={onClose}
+            onClick={handleCloseModal}
             className="p-2 hover:bg-rose-100 rounded-lg transition-colors"
           >
             <X className="w-6 h-6 text-gray-900" />
@@ -70,7 +118,7 @@ const RSVPModal = ({ isOpen, onClose }) => {
 
         {/* Contenu */}
         <div className="px-6 py-8">
-          {!submitted ? (
+           {!submitted ? (
             <form onSubmit={handleSubmit} className="space-y-5">
               {/* Message d'intro */}
               <div className="mb-6">
@@ -78,6 +126,14 @@ const RSVPModal = ({ isOpen, onClose }) => {
                   Merci de confirmer votre présence avant le <span className="font-semibold text-rose-600">10 mars 2026</span>
                 </p>
               </div>
+
+              {/* Message d'erreur */}
+              {error && (
+                <div className="bg-red-50 border border-red-200 rounded-xl p-4 flex gap-3">
+                  <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
+                  <p className="text-sm text-red-700">{error}</p>
+                </div>
+              )}
 
               {/* Nom */}
               <div>
@@ -178,9 +234,17 @@ const RSVPModal = ({ isOpen, onClose }) => {
               {/* Bouton submit */}
               <button
                 type="submit"
-                className="w-full btn-romantic mt-8"
+                disabled={isLoading}
+                className="w-full btn-romantic mt-8 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
               >
-                Confirmer ma présence
+                {isLoading ? (
+                  <>
+                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                    <span>Envoi en cours...</span>
+                  </>
+                ) : (
+                  "Confirmer ma présence"
+                )}
               </button>
 
               {/* Séparateur */}

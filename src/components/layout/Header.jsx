@@ -1,14 +1,18 @@
-import { Heart, Menu, X } from "lucide-react";
+import { Heart, Menu, X, Loader as LoaderIcon } from "lucide-react";
 import { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 
-function NavBar({ onOpenRSVP }) {
+function NavBar({ onOpenRSVP, isLoading = false }) {
+  const navigate = useNavigate();
+  const location = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
   const navItems = [
-    { name: "Notre Histoire", href: "#notre-histoire" },
-    { name: "Programme", href: "#programme" },
-    { name: "Cadeaux", href: "#cadeaux" },
+    { name: "Notre Histoire", href: "#notre-histoire", action: "scroll" },
+    { name: "Programme", href: "#programme", action: "scroll" },
+    { name: "Galerie", href: "/galerie", action: "navigate" },
+    { name: "Cadeaux", href: "#cadeaux", action: "scroll" },
   ];
 
   useEffect(() => {
@@ -18,6 +22,15 @@ function NavBar({ onOpenRSVP }) {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const handleNavClick = (item) => {
+    if (item.action === "navigate" && item.name === "Galerie") {
+      navigate("/galerie");
+      setIsMenuOpen(false);
+    } else {
+      scrollToSection(item.href);
+    }
+  };
 
   const scrollToSection = (href) => {
     const element = document.querySelector(href);
@@ -59,7 +72,7 @@ function NavBar({ onOpenRSVP }) {
               {navItems.map((nav, index) => (
                 <button
                   key={index}
-                  onClick={() => scrollToSection(nav.href)}
+                  onClick={() => handleNavClick(nav)}
                   className="relative px-5 py-2 text-gray-800 font-montserrat font-medium transition-elegant group"
                 >
                   <span className="relative z-10">{nav.name}</span>
@@ -67,6 +80,14 @@ function NavBar({ onOpenRSVP }) {
                 </button>
               ))}
             </div>
+
+            {/* Loader indicator */}
+            {isLoading && (
+              <div className="hidden md:flex items-center gap-2">
+                <LoaderIcon className="w-4 h-4 animate-spin text-rose-500" />
+                <span className="text-xs text-gray-600">Chargement...</span>
+              </div>
+            )}
 
             {/* Bouton RSVP desktop */}
             <button 
@@ -100,7 +121,10 @@ function NavBar({ onOpenRSVP }) {
             {navItems.map((nav, index) => (
               <button
                 key={index}
-                onClick={() => scrollToSection(nav.href)}
+                onClick={() => {
+                  handleNavClick(nav);
+                  setIsMenuOpen(false);
+                }}
                 className="block w-full text-left py-3 px-4 text-gray-800 font-montserrat font-medium hover:bg-rose-50 hover:text-rose-600 rounded-lg transition-colors duration-300"
               >
                 {nav.name}
