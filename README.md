@@ -369,6 +369,33 @@ localStorage.setItem("adminToken", JSON.stringify(admin));
 
 ## Configuration
 
+### Setup initial
+
+1. Copier le template:
+```bash
+cp .env.example .env
+```
+
+2. Vérifier que `.env` est dans `.gitignore` ✅
+
+### Environment variables
+
+Fichier `.env` (ignoré par git):
+```env
+VITE_API_URL=http://localhost:5000
+VITE_ENV=development
+VITE_DEBUG=false
+```
+
+### Variables disponibles
+
+| Variable | Description | Défaut |
+|----------|-------------|--------|
+| `VITE_API_URL` | URL backend API | http://localhost:5000 |
+| `VITE_ENV` | Environnement | development |
+| `VITE_DEBUG` | Mode debug | false |
+| `VITE_PUBLIC_API_TIMEOUT` | Timeout requêtes (ms) | 30000 |
+
 ### Vite (vite.config.js)
 
 Configuration pour développement et build.
@@ -376,13 +403,6 @@ Configuration pour développement et build.
 ### Tailwind (tailwind.config.js)
 
 Personnalisations du thème Tailwind.
-
-### Environment variables
-
-`.env` (optionnel)
-```
-VITE_API_URL=http://localhost:5000
-```
 
 ---
 
